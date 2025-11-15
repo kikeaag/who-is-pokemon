@@ -6,29 +6,7 @@ import { useRouter } from "next/navigation";
 import { IMAGES } from "@/utils/get-images"
 import pokeballImage from '@/public/pokeball.png'
 import Image from "next/image"
-
-const pokemons: Pokemon[] = [
-  {
-    id: 1,
-    name: 'Bulbasaur',
-    image: IMAGES[0]
-  },
-  {
-    id: 2,
-    name: 'Ivysaur',
-    image: IMAGES[1]
-  },
-  {
-    id: 3,
-    name: 'Venasaur',
-    image: IMAGES[2]
-  },
-  {
-    id: 4,
-    name: 'Charmander',
-    image: IMAGES[3]
-  },
-]
+import { POKEMONS } from "@/utils/pokemons";
 
 export default function Home() {
 
@@ -41,7 +19,7 @@ export default function Home() {
   return (
     <div className=" w-full p-5 grid grid-cols-3 md:grid-cols-6 items-center font-sans dark:bg-black gap-3">
       {
-        pokemons.map((pokemon) => {
+        POKEMONS.map((pokemon) => {
           return <div key={pokemon.id}>
             <CardComponent {...pokemon} />
           </div> 

@@ -8,7 +8,7 @@ const CardComponent = ({id, name, image}: Pokemon) => {
         <div className="max-h-50 w-28 border card-pokemon rounded-xl flex justify-center flex-col items-center p-2">
             <div className="card-pokemon-background-img h-25 rounded p-3 flex justify-center items-center">
                 <Image 
-                    className="brightness-0 object-contain flex-1"
+                    className=" object-contain flex-1"
                     draggable={false}
                     src={image}
                     alt={name} 
