@@ -39,7 +39,7 @@ export default function Home() {
   }
 
   return (
-    <div className=" w-full p-5 grid grid-cols-1 md:grid-cols-4 items-center font-sans dark:bg-black gap-3">
+    <div className=" w-full p-5 grid grid-cols-3 md:grid-cols-6 items-center font-sans dark:bg-black gap-3">
       {
         pokemons.map((pokemon) => {
           return <div key={pokemon.id}>

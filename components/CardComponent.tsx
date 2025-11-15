@@ -3,16 +3,20 @@ import Image from "next/image";
 
 
 
-const CardComponent = ({name, image}: Pokemon) => {
+const CardComponent = ({id, name, image}: Pokemon) => {
     return (
-        <div className="h-120 w-full border rounded-3xl flex justify-center flex-col items-center">
-            <Image 
-                className="brightness-0 object-contain p-2 flex-1"
-                draggable={false}
-                src={image}
-                alt={name} 
-            ></Image>
-            <span className="h-20 text-3xl">???</span>
+        <div className="max-h-50 w-28 border card-pokemon rounded-xl flex justify-center flex-col items-center p-2">
+            <div className="card-pokemon-background-img h-25 rounded p-3 flex justify-center items-center">
+                <Image 
+                    className="brightness-0 object-contain flex-1"
+                    draggable={false}
+                    src={image}
+                    alt={name} 
+                ></Image>
+
+            </div>
+            <span className="font-color-green">{'No. ' + id.toString().padStart(3, "0")}</span>
+            <span className="font-color-subtitle">???</span>
         </div>
     )
 }

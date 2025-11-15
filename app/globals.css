@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #DDF4E5;
   --foreground: #171717;
 }
 
@@ -24,3 +24,21 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.font-color-green {
+  color: #A4B3AC;
+} 
+
+.font-color-subtitle {
+  color: #7C7D7D;
+}
+
+.card-pokemon-background-img {
+  background-color: #FAFAFA;
+}
+
+.card-pokemon {
+  border-color: #B3ECDB;
+}
+
+
