@@ -6,21 +6,26 @@ export const POKEMONS: Pokemon[] = [
     {
         id: 1,
         name: "Bulbasaur",
-        image: IMAGES[0]
+        image: '/1.png',
     },
     {
         id: 2,
         name: "Ivysaur",
-        image: IMAGES[1]
+        image: '/2.png',
     },
     {
         id: 3,
         name: "Venusaur",
-        image: IMAGES[2]
+        image: '/3.png',
     },
     {
         id: 4,
         name: "Charmander",
-        image: IMAGES[3]
+        image: '/4.png',
+    },
+    {
+        id: 5,
+        name: "Charmeleon",
+        image: '/5.png',
     },
 ]

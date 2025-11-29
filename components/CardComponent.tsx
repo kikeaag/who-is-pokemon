@@ -1,21 +1,33 @@
-import { Pokemon } from "@/interfaces/Pokemon.interface";
 import Image from "next/image";
 
+interface Props {
+    pokemonWithIsCaptured: {
+        id: number;
+        name: string;
+        imageUrl: string;
+        isCaptured: boolean;
+    }
+    
+}
 
 
-const CardComponent = ({id, name, image}: Pokemon) => {
+
+const CardComponent = ({pokemonWithIsCaptured}: Props) => {
     return (
         <div className="max-h-50 w-28 border card-pokemon rounded-xl flex justify-center flex-col items-center p-2">
             <div className="card-pokemon-background-img h-25 rounded p-3 flex justify-center items-center">
                 <Image 
-                    className=" object-contain flex-1"
+                    height={50}
+                    width={50}
+                    className={`${!pokemonWithIsCaptured.isCaptured && 'brightness-0'} object-contain flex-1 h-auto w-auto`}
                     draggable={false}
-                    src={image}
-                    alt={name} 
+                    src={pokemonWithIsCaptured.imageUrl}
+                    alt={pokemonWithIsCaptured.name} 
+                    loading="eager"
                 ></Image>
 
             </div>
-            <span className="font-color-green">{'No. ' + id.toString().padStart(3, "0")}</span>
+            <span className="font-color-green">{'No. ' + pokemonWithIsCaptured.id.toString().padStart(3, "0")}</span>
             <span className="font-color-subtitle">???</span>
         </div>
     )

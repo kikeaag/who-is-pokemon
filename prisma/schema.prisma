@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  email       String  @unique
+  password    String  @default("")
+  name        String
+  myPokemons  MyPokemon[]
+}
+
+model Pokemon {
+  id          Int     @id
+  name        String
+  imageUrl    String
+  myPokemons  MyPokemon[]
+}
+
+model MyPokemon {
+  id          Int       @id @default(autoincrement())
+  quantity    Int       @default(0)
+  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
+  pokemonId   Int
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+}

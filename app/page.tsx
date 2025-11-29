@@ -1,36 +1,46 @@
-'use client'
 import CardComponent from "@/components/CardComponent"
-import { Pokemon } from "@/interfaces/Pokemon.interface"
-import { useRouter } from "next/navigation";
 
-import { IMAGES } from "@/utils/get-images"
-import pokeballImage from '@/public/pokeball.png'
-import Image from "next/image"
-import { POKEMONS } from "@/utils/pokemons";
+import { prisma } from "@/lib/prisma"
+import PokeballButton from "./PokeballButton"
 
-export default function Home() {
 
-  const router = useRouter();
+export default async function Home() {
 
-  const handleClick = () => {
-    router.push("/pokemons");
-  }
+  const myPokemons = await prisma.myPokemon.findMany({
+    where: {
+      userId: 2
+    },
+    include: {
+      pokemon: true
+    }
+  })
+
+  const allPokemons = await prisma.pokemon.findMany()
+
+  const allPokemonsWithCaptured = allPokemons.map(pokemon => {
+
+    const isCaptured = myPokemons.some(myPokemon => myPokemon.pokemonId === pokemon.id)
+
+    return {
+      id: pokemon.id,
+      name: pokemon.name,
+      imageUrl: pokemon.imageUrl,
+      isCaptured: isCaptured
+    }
+
+  })
 
   return (
     <div className=" w-full p-5 grid grid-cols-3 md:grid-cols-6 items-center font-sans dark:bg-black gap-3">
       {
-        POKEMONS.map((pokemon) => {
+        allPokemonsWithCaptured.map((pokemon) => {
           return <div key={pokemon.id}>
-            <CardComponent {...pokemon} />
+            <CardComponent pokemonWithIsCaptured={pokemon} />
           </div> 
         })
       }
-      <button
-        onClick={handleClick}
-        className="fixed bottom-6 right-6 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-red-600 transition-all"
-      >
-        <Image alt="pokeball" src={pokeballImage} />
-      </button>
+      <PokeballButton />
+      
     </div>
   )
 }

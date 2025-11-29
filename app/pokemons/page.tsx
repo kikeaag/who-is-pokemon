@@ -1,50 +1,74 @@
-'use client'
+import { Prisma } from '@/generated/prisma/client';
+import { Pokemon } from '@/interfaces/Pokemon.interface';
+import { prisma } from '@/lib/prisma';
+import Link from 'next/link';
+import PokemonGame from './PokemonGame';
 
-import React, { useState } from 'react'
-import image from '../../public/1.png'
-import Image from 'next/image';
+const Page = async () => {
 
-const answers = [
-    {id: 1, name: 'Snorlax'},
-    {id: 2, name: 'Mew'},
-    {id: 3, name: 'Bulbasaur'},
-    {id: 4, name: 'Charmander'},
-]
+    let pokedexComplete = false
 
-const Page = () => {
-    const [hide, setHide] = useState(true)
+    const myPokemons = await prisma.myPokemon.findMany({
+        where: {
+            userId: 2
+        },
+        select: {
+            pokemonId: true
+        },
+    })
 
-    const handleClick = (pokemonId: number) => {
-        if(pokemonId === 3) {
-            setHide(false)
-        }
+    const myPokemonsIds = myPokemons.map(pokemon => pokemon.pokemonId)
+
+    let allPokemons: Pokemon[];
+
+    if (myPokemonsIds.length === 0) {
+        // TODO: checar si cuando no tienes pokemones el primero en mostrarte sera bulbasaur
+        allPokemons = await prisma.pokemon.findMany(); 
+    } else {
+        allPokemons = await prisma.$queryRaw`
+            SELECT *
+            FROM Pokemon
+            WHERE id NOT IN (${Prisma.join(myPokemonsIds)})
+            ORDER BY RANDOM();
+        `;
     }
+
+    if(allPokemons.length === 0) {
+        pokedexComplete = true
+        allPokemons = await prisma.$queryRaw`
+            SELECT *
+            FROM Pokemon
+            ORDER BY RANDOM();
+        `;
+    }
+
+    const pokemonCorrect = allPokemons[0]
+
+    const wrongPokemons: Pokemon[] = await prisma.$queryRaw`
+        SELECT *
+        FROM Pokemon
+        ORDER BY RANDOM();
+    `;
+
+    const [p1, p2, p3] = wrongPokemons.filter(pokemon => pokemon.id !== pokemonCorrect.id)
+
+    const answers = shuffleArray([pokemonCorrect, p1, p2, p3]);
+
+    function shuffleArray<T>(array: T[]): T[] {
+        const result = [...array];
+        for (let i = result.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [result[i], result[j]] = [result[j], result[i]];
+        }
+        return result;
+    }
+    
     return (
-        <div className='w-full h-dvh flex flex-col justify-center items-center bg-red-500 p-5'>
-            <h1 className='text-3xl my-5 text-white'>¿Quién es este pokémon?</h1>
-            <div className='w-full md:w-1/2 h-3/4 bg-white flex justify-center rounded-2xl'>
-                <Image 
-                    width={500}
-                    height={500}
-                    draggable={false}
-                    className={`${hide ? 'brightness-0' : ''}`} 
-                    alt='pokemon' 
-                    src={image}>
-                
-                </Image>
-            </div>
-            <div className='w-full md:w-1/2 grid grid-cols-1 md:grid-cols-2 gap-5 my-5'>
-                {
-                    answers.map(p => {
-                        return <button
-                            onClick={() => {handleClick(p.id)}}
-                            className='p-5 w-full md:w-auto rounded-2xl bg-blue-700 text-white cursor-pointer hover:bg-blue-400' key={p.id}>
-                            {p.name}
-                        </button>
-                    })
-                }
-                
-            </div>
+        <div className='w-full h-full flex flex-col justify-center items-center p-5'>
+            <Link className='w-full bg-secondary py-2 text-center text-secondary-foreground text-sm font-medium rounded-md' href={'/'}>Regresar</Link>
+            <h1 className='text-2xl my-5 font-color-green font-bold text-center'>¿Quién es este pokémon?</h1>
+            <PokemonGame answers={answers} pokemonCorrect={pokemonCorrect} pokedexComplete={pokedexComplete} />
+            
         </div>
     )
 }
