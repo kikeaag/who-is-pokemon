@@ -29,7 +29,9 @@ const CardComponent = ({pokemonWithIsCaptured}: Props) => {
 
             </div>
             <span className="font-color-green">{'No. ' + pokemonWithIsCaptured.id.toString().padStart(3, "0")}</span>
-            <span className="font-color-subtitle">???</span>
+            <span className="font-color-subtitle">
+                {pokemonWithIsCaptured.isCaptured ? pokemonWithIsCaptured.name : '???'} 
+            </span>
         </div>
     )
 }
