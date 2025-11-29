@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import CardComponent from "@/components/CardComponent"
 
 import prisma from "@/lib/prisma"
