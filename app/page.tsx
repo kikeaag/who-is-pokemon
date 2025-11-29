@@ -1,6 +1,6 @@
 import CardComponent from "@/components/CardComponent"
 
-import { prisma } from "@/lib/prisma"
+import prisma from "@/lib/prisma"
 import PokeballButton from "./PokeballButton"
 
 
@@ -8,7 +8,7 @@ export default async function Home() {
 
   const myPokemons = await prisma.myPokemon.findMany({
     where: {
-      userId: 2
+      userId: 1
     },
     include: {
       pokemon: true

@@ -1,6 +1,6 @@
 import { Prisma } from '@/generated/prisma/client';
 import { Pokemon } from '@/interfaces/Pokemon.interface';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import PokemonGame from './PokemonGame';
 
@@ -10,7 +10,7 @@ const Page = async () => {
 
     const myPokemons = await prisma.myPokemon.findMany({
         where: {
-            userId: 2
+            userId: 1
         },
         select: {
             pokemonId: true
@@ -27,7 +27,7 @@ const Page = async () => {
     } else {
         allPokemons = await prisma.$queryRaw`
             SELECT *
-            FROM Pokemon
+            FROM "Pokemon"
             WHERE id NOT IN (${Prisma.join(myPokemonsIds)})
             ORDER BY RANDOM();
         `;
@@ -37,7 +37,7 @@ const Page = async () => {
         pokedexComplete = true
         allPokemons = await prisma.$queryRaw`
             SELECT *
-            FROM Pokemon
+            FROM "Pokemon"
             ORDER BY RANDOM();
         `;
     }
@@ -46,7 +46,7 @@ const Page = async () => {
 
     const wrongPokemons: Pokemon[] = await prisma.$queryRaw`
         SELECT *
-        FROM Pokemon
+        FROM "Pokemon"
         ORDER BY RANDOM();
     `;
 

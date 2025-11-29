@@ -38,5 +38,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 flujo
 1.- npm run dev
 2.- si modificas bd se corre npx prisma migrate dev y luego npx prisma generate
-3.- y se puede correr el seeder con: npx tsx seeder_pokemons.ts
+3.- y se puede correr el seeder con: npx prisma db seed
 4.- se puede ver la bd con el comando: npx prisma studio --config ./prisma.config.ts
+
+comando para subir la bd a postgressql neon npx prisma db push
+para correr los seeders npx prisma db seed

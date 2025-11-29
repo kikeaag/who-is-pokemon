@@ -1,11 +1,11 @@
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma';
 
 async function main() {
 
   await prisma.myPokemon.create({
    data: {
     pokemonId: 1,
-    userId: 2,
+    userId: 1,
     quantity: 1,
     id: 1
    }
