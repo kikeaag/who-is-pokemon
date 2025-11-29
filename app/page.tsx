@@ -16,11 +16,7 @@ export default async function Home() {
     }
   })
 
-  console.log('my pokemons', myPokemons)
-
   const allPokemons = await prisma.pokemon.findMany()
-
-  console.log('allpokemons', allPokemons)
 
   const allPokemonsWithCaptured = allPokemons.map(pokemon => {
 
