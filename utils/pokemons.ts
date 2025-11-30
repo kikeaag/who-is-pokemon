@@ -52,4 +52,14 @@ export const POKEMONS: Pokemon[] = [
         name: "Caterpie",
         imageUrl: '/10.png',
     },
+    {
+        id: 11,
+        name: "Metapod",
+        imageUrl: '/11.png',
+    },
+    {
+        id: 12,
+        name: "Butterfree",
+        imageUrl: '/12.png',
+    },
 ]
